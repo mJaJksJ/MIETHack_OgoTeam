@@ -11,7 +11,7 @@ namespace Ogo.Controllers.RoomController
        
         public int Number { get; set; }
 
-        public List<StudentShortResponse> Students { get; set; }
+        public List<string> Students { get; set; }
       
         public int Housing { get; set; }
     

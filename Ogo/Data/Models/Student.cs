@@ -12,6 +12,7 @@ namespace Ogo.Data.Models
         public int Id { get; set; }
 
         [Required]
+        
         public int Number { get; set; }
 
         [Required]
@@ -43,5 +44,7 @@ namespace Ogo.Data.Models
         public Room Room { get; set; } 
 
         public bool isNeededRoom { get; set; }
+
+        
     }
 }

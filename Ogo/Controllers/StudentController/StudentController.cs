@@ -55,5 +55,48 @@ namespace Ogo.Controllers.StudentController
                 return new BadRequestResult();
             }
         }
+
+        [HttpPost]
+        [Route("/api/AddRoom/")]
+        public IActionResult AddRoom(int? studentNumber, int roomNumber, int housingNumber)
+        {
+            if (_studentService.UpdateRoom(studentNumber, roomNumber, housingNumber))
+            {
+                return Ok();
+            }
+            else
+            {
+                return new BadRequestResult();
+            }
+        }
+
+        [HttpPost]
+        [Route("/api/Eviction")]
+        public IActionResult Eviction(int? studentNumber)
+        {
+            if (_studentService.RemoveRoom(studentNumber))
+            {
+                return Ok();
+            }
+            else
+            {
+                return new BadRequestResult();
+            }
+        }
+
+        [HttpPost]
+        [Route("/api/Explosion")]
+        public IActionResult Explosion(int? studentNumber)
+        {
+            if(_studentService.RemoveStudent(studentNumber))
+            {
+                return Ok();
+            }
+            else
+            {
+                return new BadRequestResult();
+            }
+        }
+        
     }
 }
