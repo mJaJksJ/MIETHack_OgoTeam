@@ -1,6 +1,6 @@
 ﻿namespace Ogo.Controllers.StudentController
 {
-    public class StudentResponse
+    public class StudentShortResponse
     {
         public int Id { get; set; }
         public int Number { get; set; }

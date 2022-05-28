@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ogo.Data;
 
@@ -10,9 +11,10 @@ using Ogo.Data;
 namespace Ogo.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220528141641_RemoveRequiredRoom")]
+    partial class RemoveRequiredRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -90,9 +92,6 @@ namespace Ogo.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("RoomId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("isNeededRoom")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
