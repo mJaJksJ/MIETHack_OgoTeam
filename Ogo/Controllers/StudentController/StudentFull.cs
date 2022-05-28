@@ -2,7 +2,7 @@
 
 namespace Ogo.Controllers.StudentController
 {
-    public class StudentFullResponse
+    public class StudentFull
     {
         
         public int Number { get; set; }
@@ -23,6 +23,8 @@ namespace Ogo.Controllers.StudentController
         
         public string PlaceOfBirth { get; set; }
 
+        public int? NumberOfHousing { get; set; }
         public int? NumberOfRoom { get; set; }
+
     }
 }
