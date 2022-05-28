@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 
-const AddStudentModal = ({open, handleClose}) => {
+const AddStudentModal = ({open, close}) => {
     const [birthday, setBirthday] = useState(null);
     const [fullName, setFullName] = useState(null);
     const [studentNumber, setStudentNumber] = useState(null);
@@ -10,7 +10,7 @@ const AddStudentModal = ({open, handleClose}) => {
 
     return (
         <div>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={close}>
                 <DialogTitle>Добавить студента</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -40,17 +40,19 @@ const AddStudentModal = ({open, handleClose}) => {
                         fullWidth
                         variant="standard"
                     />
-                    <DatePicker
-                        label="Date desktop"
-                        inputFormat="MM/dd/yyyy"
-                        value={birthday}
-                        onChange={evt => setBirthday(evt.target.value)}
-                        renderInput={(params) => <TextField {...params} />}
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Комната"
+                        type="text"
+                        fullWidth
+                        variant="standard"
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
+                    <Button onClick={close}>Отменить</Button>
+                    <Button onClick={close}>Добавить</Button>
                 </DialogActions>
             </Dialog>
         </div>
