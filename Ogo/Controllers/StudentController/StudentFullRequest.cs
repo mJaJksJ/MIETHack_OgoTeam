@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Ogo.Controllers.StudentController
 {
-    public class StudentFull
+    public class StudentFullRequest
     {
         
         public int Number { get; set; }
@@ -13,7 +14,7 @@ namespace Ogo.Controllers.StudentController
        
         public string BirthDay { get; set; }
 
-        public string Image { get; set; }       
+        public IFormFile Image { get; set; }       
         
         public int NumberOfOrderOfHostel { get; set; }
      
