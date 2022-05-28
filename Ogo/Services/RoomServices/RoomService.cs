@@ -49,14 +49,15 @@ namespace Ogo.Services.RoomServices
         {
             return _dbContext.Rooms
                 .Include(_ => _.Students)
-                .Where(_ => _.Housing.Number == housing && _.Floor == floor)
+                .Where(_ => _.HousingNumber == housing && _.Floor == floor)
                 .Select(r => new ShortRoomInfoResponse
                 {
                     CountOfPossibleStudents = r.CountOfPossibleStudents,
                     Housing = housing,
                     Number = r.Number,
                     RealStudentsCount = r.Students.Count
-                });
+                })
+                .ToArray();
         }
     }
 }

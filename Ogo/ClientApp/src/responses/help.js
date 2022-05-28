@@ -5,7 +5,17 @@ export async function fetchGetStudentsShort(){
     let response = [];
     try {
         response = (await axios.get('https://localhost:7076/api/GetStudentsShort/'));
-        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+    return response.data;
+}
+
+export async function fetchRooms(housing, floor){
+    const axios = require('axios').default;
+    let response = [];
+    try {
+        response = (await axios.get(`https://localhost:7076/api/rooms/housing/${housing}/floor/${floor}`));
     } catch (error) {
         console.error(error);
     }

@@ -25,11 +25,12 @@ namespace Ogo.Controllers.RoomController
         /// </summary>
         /// <param name="housing">Номер корпуса</param>
         /// <param name="floor">Этаж</param>
-        [HttpGet("~/api/rooms")]
+        [HttpGet("~/api/rooms/housing/{housing}/floor/{floor}")]
         [ProducesResponseType(typeof(ShortRoomInfoResponse), 200)]
         public IActionResult GetRooms(int housing, int floor)
         {
-            return Ok(_roomService.GetRooms(housing, floor));
+            var rooms = _roomService.GetRooms(housing, floor);
+            return Ok(rooms);
         }
     }
 }

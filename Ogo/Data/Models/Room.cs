@@ -15,6 +15,8 @@ namespace Ogo.Data.Models
        
         public List<Student> Students { get; set; }
 
+        public int HousingNumber { get; set; }
+
         [Required]
         public Housing Housing { get; set; }
 
