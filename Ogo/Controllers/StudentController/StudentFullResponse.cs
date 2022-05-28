@@ -23,6 +23,6 @@ namespace Ogo.Controllers.StudentController
         
         public string PlaceOfBirth { get; set; }
 
-        public int NumberOfRoom { get; set; }
+        public int? NumberOfRoom { get; set; }
     }
 }

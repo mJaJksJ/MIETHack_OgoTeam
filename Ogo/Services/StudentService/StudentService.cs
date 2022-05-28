@@ -43,9 +43,9 @@ namespace Ogo.Services.StudentService
            
         }
 
-        public IEnumerable<StudentShortResponse> GetStudentsInfo()
+        public List<StudentShortResponse> GetStudentsInfo()
         {
-            IEnumerable<StudentShortResponse> students = _db.Students.Select(s => new StudentShortResponse
+            List<StudentShortResponse> students = _db.Students.Select(s => new StudentShortResponse
             {
                 Id = s.Id,
                 Number = s.Number,
@@ -53,7 +53,7 @@ namespace Ogo.Services.StudentService
                 GroupName = s.GroupName,
                 NumberOfRoom = s.Room.Number
                 
-            });
+            }).ToList();
             return students;
         }
 

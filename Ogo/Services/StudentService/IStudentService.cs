@@ -5,7 +5,7 @@ namespace Ogo.Services.StudentService
 {
     public interface IStudentService
     {
-        public IEnumerable<StudentShortResponse> GetStudentsInfo();
+        public List<StudentShortResponse> GetStudentsInfo();
         public StudentFullResponse GetStudent(int? id);
         public IEnumerable<StudentShortResponse> GetStudentsWithoutRoom();
 

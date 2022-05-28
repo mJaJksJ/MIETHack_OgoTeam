@@ -17,11 +17,11 @@ namespace Ogo.Controllers.StudentController
         }
 
         [HttpGet]
-        [Route("/api/GetStudents/")]
-        public IActionResult GetStudents()
+        [Route("/api/GetStudentsShort/")]
+        public List<StudentShortResponse> GetStudentsShort()
         {
-            IEnumerable<StudentShortResponse> students = _studentService.GetStudentsInfo();
-            return View(students);
+            List<StudentShortResponse> students = _studentService.GetStudentsInfo();
+            return students;
         }
 
         [HttpGet]
