@@ -19,6 +19,17 @@ builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<IRoomService, RoomService>();
 builder.Services.AddTransient<IHousingService, HousingService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
+
+
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(connection));
 
