@@ -118,6 +118,12 @@ const headCells = [
         label: 'Группа',
     },
     {
+        id: 'house',
+        numeric: false,
+        disablePadding: false,
+        label: 'Корпус',
+    },
+    {
         id: 'room',
         numeric: false,
         disablePadding: false,
@@ -377,7 +383,7 @@ export default function StudentsList() {
                                                 <StyledTableCell align="left">{row.fullName}</StyledTableCell>
                                                 <StyledTableCell align="left">{row.number}</StyledTableCell>
                                                 <StyledTableCell align="left">{row.groupName}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.numberOfHousing}</StyledTableCell>
                                                 <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
                                                 <StyledTableCell align="left">
                                                     <Button variant="outlined">Редактировать</Button>
