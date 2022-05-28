@@ -18,26 +18,42 @@ namespace Ogo.Controllers.StudentController
 
         [HttpGet]
         [Route("/api/GetStudentsShort/")]
-        public List<StudentShortResponse> GetStudentsShort()
+        [ProducesResponseType(typeof(List<StudentShortResponse>), 200)]
+        public IActionResult GetStudentsShort()
         {
             List<StudentShortResponse> students = _studentService.GetStudentsInfo();
-            return students;
+            return Ok(students);
         }
 
         [HttpGet]
         [Route("/api/GetStudentInfo/")]
-        public StudentFullResponse GetStudentInfo(int? id)
+        [ProducesResponseType(typeof(StudentFullResponse), 200)]
+        public IActionResult GetStudentInfo(int? id)
         {
-            return _studentService.GetStudent(id);
+            return Ok(_studentService.GetStudent(id));
         }
 
         [HttpGet]
         [Route("/api/GetStudentWithoutRoom/")]
-        public IEnumerable<StudentShortResponse> GetStudentWithoutRoom()
+        [ProducesResponseType(typeof(IEnumerable<StudentShortResponse>), 200)]
+        public IActionResult GetStudentWithoutRoom()
         {
-            return _studentService.GetStudentsWithoutRoom();
+            return Ok(_studentService.GetStudentsWithoutRoom());
         }
 
-       
+        [HttpPost]
+        [Route("/api/AddStudent/")]
+        public IActionResult AddStudent(StudentFullRequest student)
+        {
+            if(_studentService.AddStudentToDB(student))
+            {
+                return Ok();
+              
+            }
+            else
+            {
+                return new BadRequestResult();
+            }
+        }
     }
 }

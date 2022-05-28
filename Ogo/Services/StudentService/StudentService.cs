@@ -3,6 +3,7 @@ using Ogo.Data;
 using Ogo.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Ogo.Services.StudentService
@@ -70,6 +71,44 @@ namespace Ogo.Services.StudentService
 
             });
             return students;
+        }
+
+
+        public bool AddStudentToDB(StudentFullRequest student)
+        {
+                MemoryStream ms = new MemoryStream();
+                student.Image.CopyTo(ms);                  
+                byte[] bytes = new byte[ms.Length];
+                string fileName = Guid.NewGuid().ToString();
+                File.WriteAllBytes(Path.Combine(WC.ImagePath, fileName),ms.ToArray());
+
+            Room room = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
+            r.Housing.Number == student.NumberOfHousing).FirstOrDefault();
+            room.Housing = _db.Housings.Where(h => h.Number == student.NumberOfHousing).FirstOrDefault();
+            if (room.Housing == null || room == null)
+            {
+                return false;
+            }
+            else
+            {
+                Student newStudent = new Student
+                {
+                    BirthDay = DateTime.Parse(student.BirthDay),
+                    DateOfEnrollment = DateTime.Parse(student.DateOfEnrollment),
+                    NumberOfOrderOfEnrollment = student.NumberOfOrderOfEnrollment,
+                    FullName = student.FullName,
+                    GroupName = student.GroupName,
+                    Image = fileName,
+                    Number = student.Number,
+                    NumberOfOrderOfHostel = student.NumberOfOrderOfHostel,
+                    PlaceOfBirth = student.PlaceOfBirth,
+                    Room = room
+
+                };
+                _db.Students.Add(newStudent);
+                _db.SaveChanges();
+            }
+            return true;
         }
     }
 }
