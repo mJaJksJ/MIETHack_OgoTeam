@@ -16,10 +16,10 @@ export default class App extends Component {
     render() {
         return (
             <Layout>
-                <Route path='/main' component={MainPage}/>
+                <Route exact path='/' component={MainPage}/>
                 <Route exact path='/students' component={StudentsList}/>
                 <Route exact path='/rooms' component={Home}/>
-                <Route path='/contacts' component={ContactsPage}/>
+                <Route exact path='/contacts' component={ContactsPage}/>
                 <Redirect from='/' to='/main'/>
             </Layout>
         );
