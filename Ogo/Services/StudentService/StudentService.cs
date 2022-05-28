@@ -51,7 +51,8 @@ namespace Ogo.Services.StudentService
                 Number = s.Number,
                 FullName = s.FullName,
                 GroupName = s.GroupName,
-                NumberOfRoom = s.Room.Number
+                NumberOfRoom = s.Room.Number,
+                NumberOfHousing = s.Room.Housing.Number
                 
             }).ToList();
             return students;
