@@ -7,6 +7,7 @@ export class Home extends Component {
   render () {
     return (
       <div>
+          <StudentsList></StudentsList>
         <h1>Hello, world!</h1>
         <p>Welcome to your new single-page application, built with:</p>
         <ul>
