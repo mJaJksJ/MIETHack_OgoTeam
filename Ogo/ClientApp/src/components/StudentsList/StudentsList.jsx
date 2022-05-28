@@ -22,6 +22,9 @@ import {visuallyHidden} from '@mui/utils';
 import {styled} from '@mui/material/styles';
 import {Button} from "@mui/material";
 import AddStudentModal from "./AddStudentModal";
+import axios from "axios";
+import {fetchGetStudentsShort} from "../../responses/help";
+import {useEffect} from "react";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -36,7 +39,7 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
     },
 }));
 
-function createData(cardId, name, studentNumber, group, room) {
+/*function createData(cardId, name, studentNumber, group, room) {
     return {
         cardId,
         name,
@@ -57,7 +60,7 @@ const rows = [
     createData(9, 'fio', '8975645', 'pp-88', '15-365'),
     createData(10, 'fio', '8975645', 'pp-88', '15-365'),
     createData(11, 'fio', '8975645', 'pp-88', '15-365')
-];
+];*/
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -245,6 +248,7 @@ export default function StudentsList() {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rows, setRows] = React.useState([]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -306,8 +310,20 @@ export default function StudentsList() {
         setOpen(false);
     };
 
+
+    async function loadStudent() {
+        const data = await fetchGetStudentsShort();
+        console.log(data);
+        setRows(data);
+    }
+
+    useEffect(() => {
+        loadStudent();
+    }, [])
+
     return (
         <div>
+            <Button onClick={loadStudent}>Обновить</Button>
             <Button variant="contained" onClick={handleClickOpen}>
                 Добавить студента
             </Button>
@@ -335,17 +351,17 @@ export default function StudentsList() {
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row, index) => {
-                                        const isItemSelected = isSelected(row.cardId);
+                                        const isItemSelected = isSelected(row.id);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={(event) => handleClick(event, row.cardId)}
+                                                onClick={(event) => handleClick(event, row.id)}
                                                 role="checkbox"
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}
-                                                key={row.cardId}
+                                                key={row.id}
                                                 selected={isItemSelected}
                                             >
                                                 <StyledTableCell padding="checkbox">
@@ -357,11 +373,12 @@ export default function StudentsList() {
                                                         }}
                                                     />
                                                 </StyledTableCell>
-                                                <StyledTableCell align="left">{row.cardId}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.name}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.studentNumber}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.group}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.room}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.id}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.fullName}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.number}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.groupName}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
+                                                <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
                                                 <StyledTableCell align="left">
                                                     <Button variant="outlined">Редактировать</Button>
                                                 </StyledTableCell>
