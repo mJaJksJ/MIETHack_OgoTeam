@@ -15,12 +15,29 @@ namespace Ogo.Controllers.StudentController
             _db = db;
             _studentService = studentService;
         }
-        [Route("api/students")]
-        public IActionResult Students()
+
+        [HttpGet]
+        [Route("/api/GetStudentsShort/")]
+        public List<StudentShortResponse> GetStudentsShort()
         {
-            IEnumerable<StudentResponse> students = _studentService.GetStudentsInfo();
-            return View(students);
+            List<StudentShortResponse> students = _studentService.GetStudentsInfo();
+            return students;
         }
 
+        [HttpGet]
+        [Route("/api/GetStudentInfo/")]
+        public StudentFullResponse GetStudentInfo(int? id)
+        {
+            return _studentService.GetStudent(id);
+        }
+
+        [HttpGet]
+        [Route("/api/GetStudentWithoutRoom/")]
+        public IEnumerable<StudentShortResponse> GetStudentWithoutRoom()
+        {
+            return _studentService.GetStudentsWithoutRoom();
+        }
+
+       
     }
 }

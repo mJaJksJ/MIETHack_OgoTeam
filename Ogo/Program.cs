@@ -4,12 +4,32 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogo.Data;
+using Ogo.Services.HousingFolder;
+using Ogo.Services.RoomServices;
+using Ogo.Services.StudentService;
+using Swashbuckle.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddTransient<IRoomService, RoomService>();
+builder.Services.AddTransient<IHousingService, HousingService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
+
+
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(connection));
 
@@ -25,6 +45,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("AllowAll");
 
 
 app.MapControllerRoute(
@@ -33,4 +54,9 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html"); ;
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.Run();

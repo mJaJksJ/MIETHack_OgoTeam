@@ -40,7 +40,8 @@ namespace Ogo.Data.Models
         [Required]
         public string PlaceOfBirth { get; set; } 
 
-        [Required]
         public Room Room { get; set; } 
+
+        public bool isNeededRoom { get; set; }
     }
 }
