@@ -5,8 +5,11 @@ import Room from "./Room/Room";
 import ToiletRoom from "./ToiletRoom/ToiletRoom";
 import StairsRoom from "./StairsRoom/StairsRoom";
 import KitchenRoom from "./KitchenRoom/KitchenRoom";
+import axios from "axios";
 
-function Dormitory(props) {
+function Housing(props) {
+    
+
     return (
         <>
             <h1>{`Корпус ${props.housingNum} этаж ${props.floor}`}</h1>
@@ -24,4 +27,4 @@ function Dormitory(props) {
     );
 }
 
-export default Dormitory;
+export default Housing;

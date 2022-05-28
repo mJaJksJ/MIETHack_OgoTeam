@@ -2,7 +2,7 @@
 
 namespace Ogo.Controllers.StudentController
 {
-    public class StudentFull
+    public class StudentFullResponse
     {
         
         public int Number { get; set; }

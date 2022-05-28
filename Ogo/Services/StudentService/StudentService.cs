@@ -14,9 +14,7 @@ namespace Ogo.Services.StudentService
         {
             _db = db;
         }
-
-        
-
+          
         public StudentFullResponse GetStudent(int? id)
         {
             if (id != null && id != 0)
