@@ -8,7 +8,6 @@ namespace Ogo.Services.StudentService
         public List<StudentShortResponse> GetStudentsInfo();
         public StudentFullResponse GetStudent(int? id);
         public IEnumerable<StudentShortResponse> GetStudentsWithoutRoom();
-
-     
+        public bool AddStudentToDB(StudentFullRequest student);
     }
 }
