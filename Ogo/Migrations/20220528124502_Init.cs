@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ogo.Migrations
 {
-    public partial class DBInitialization : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,14 +26,15 @@ namespace Ogo.Migrations
                 name: "Rooms",
                 columns: table => new
                 {
-                    Number = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Number = table.Column<int>(type: "INTEGER", nullable: false),
                     HousingNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     CountOfPossibleStudents = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.Number);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Rooms_Housings_HousingNumber",
                         column: x => x.HousingNumber,
@@ -50,22 +51,23 @@ namespace Ogo.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Number = table.Column<int>(type: "INTEGER", nullable: false),
                     FullName = table.Column<string>(type: "TEXT", nullable: false),
+                    GroupName = table.Column<string>(type: "TEXT", nullable: false),
                     BirthDay = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Image = table.Column<string>(type: "TEXT", nullable: true),
                     NumberOfOrderOfHostel = table.Column<int>(type: "INTEGER", nullable: false),
                     NumberOfOrderOfEnrollment = table.Column<int>(type: "INTEGER", nullable: false),
                     DateOfEnrollment = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PlaceOfBirth = table.Column<string>(type: "TEXT", nullable: false),
-                    RoomNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                    RoomId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Rooms_RoomNumber",
-                        column: x => x.RoomNumber,
+                        name: "FK_Students_Rooms_RoomId",
+                        column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Number",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -75,9 +77,9 @@ namespace Ogo.Migrations
                 column: "HousingNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_RoomNumber",
+                name: "IX_Students_RoomId",
                 table: "Students",
-                column: "RoomNumber");
+                column: "RoomId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

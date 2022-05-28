@@ -33,7 +33,7 @@ namespace Ogo.Migrations
 
             modelBuilder.Entity("Ogo.Data.Models.Room", b =>
                 {
-                    b.Property<int>("Number")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -43,7 +43,10 @@ namespace Ogo.Migrations
                     b.Property<int>("HousingNumber")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Number");
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("HousingNumber");
 
@@ -86,12 +89,12 @@ namespace Ogo.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("RoomNumber")
+                    b.Property<int>("RoomId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomNumber");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Students");
                 });
@@ -111,7 +114,7 @@ namespace Ogo.Migrations
                 {
                     b.HasOne("Ogo.Data.Models.Room", "Room")
                         .WithMany("Students")
-                        .HasForeignKey("RoomNumber")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

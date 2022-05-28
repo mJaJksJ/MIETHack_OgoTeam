@@ -8,6 +8,8 @@ namespace Ogo.Data.Models
     {
         [Required]
         [Key]
+        public int Id { get; set; }
+        [Required]    
         [Range(1, int.MaxValue, ErrorMessage = "Номер комнаты должен быть больше 0")]
         public int Number { get; set; }
        

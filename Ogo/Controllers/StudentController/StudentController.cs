@@ -2,7 +2,7 @@
 using Ogo.Data;
 using Ogo.Services.StudentService;
 using System.Collections.Generic;
-using System.Linq;
+
 
 namespace Ogo.Controllers.StudentController
 {
@@ -18,7 +18,7 @@ namespace Ogo.Controllers.StudentController
         [Route("api/students")]
         public IActionResult Students()
         {
-            IEnumerable<StudentVM> students = _studentService.GetStudentsInfo();
+            IEnumerable<StudentResponse> students = _studentService.GetStudentsInfo();
             return View(students);
         }
 
