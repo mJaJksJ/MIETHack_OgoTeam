@@ -88,6 +88,9 @@ const AddStudentModal = ({open, close}) => {
 
 
         console.log(response);
+        if (response.status == "200")
+            close();
+        console.log("200");
     }
 
     return (
