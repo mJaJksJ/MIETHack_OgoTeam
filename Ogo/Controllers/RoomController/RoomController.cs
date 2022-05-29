@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ogo.Controllers.StudentController;
 using Ogo.Services.RoomServices;
 using System.Collections.Generic;
 
@@ -14,13 +15,13 @@ namespace Ogo.Controllers.RoomController
             _roomService = roomService;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("/api/GetRoom")]
         [ProducesResponseType(typeof(RoomResponse), 200)]
         public IActionResult GetRoom(int? id)
         {
             return Ok(_roomService.GetRoomInfo(id));
-        }
+        }*/
 
         [HttpGet]
         [Route("/api/GetFreeRooms")]
@@ -28,6 +29,17 @@ namespace Ogo.Controllers.RoomController
         public IActionResult GetFreeRooms()
         {
             return Ok(_roomService.GetFreeRooms());
+        }
+
+        /// <summary>
+        /// Получить дополнительную информацию о комнате
+        /// </summary>
+        /// <param name="roomId">Id комнаты</param>
+        [HttpGet("~/api/rooms/{roomId}")]
+        [ProducesResponseType(typeof(IEnumerable<StudentShortResponse>), 200)]
+        public IActionResult GetAdditionalRoomInfo(int roomId)
+        {
+            return Ok(_roomService.GetAdditionalRoomInfo(roomId));
         }
 
         /// <summary>
@@ -39,8 +51,7 @@ namespace Ogo.Controllers.RoomController
         [ProducesResponseType(typeof(ShortRoomInfoResponse), 200)]
         public IActionResult GetRooms(int housing, int floor)
         {
-            var rooms = _roomService.GetRooms(housing, floor);
-            return Ok(rooms);
+            return Ok(_roomService.GetRooms(housing, floor));
         }
     }
 }

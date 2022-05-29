@@ -6,6 +6,8 @@ import {Button} from "@mui/material";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 function Housing(props) {
+    const [selectedRoom, setSelectedRoom] = useState({id: 0, housing: 0, number: 0, realStudentsCount: 0, countOfPossibleStudents: 0});
+
     const roomsList = fetchRooms(props.housingNum, props.floor);
 
     return (
@@ -14,7 +16,7 @@ function Housing(props) {
             <Button variant="outlined" startIcon={<ArrowBackOutlinedIcon />} onClick={props.backToDormitory}>К схеме общежития</Button>
 
             <div className={styleClasses.backgroundScheme}>
-                <Room rooms={roomsList} num={2} style={{top: '5.35%', left: '8.6%'}}/>
+                <Room onClick={(rm) => {setSelectedRoom(rm)}} rooms={roomsList} num={2} style={{top: '5.35%', left: '8.6%'}}/>
                 <Room rooms={roomsList} num={4} style={{top: '5.35%', left: '12.6%'}}/>
                 <Room rooms={roomsList} num={6} style={{top: '5.35%', left: '16.7%'}}/><Room
                 rooms={roomsList} num={8} style={{top: '5.35%', left: '20.8%'}}/><Room rooms={roomsList} num={10} style={{top: '5.35%', left: '24.9%'}}/><Room
@@ -54,7 +56,7 @@ function Housing(props) {
             </div>
 
             <br/>
-
+<div>{selectedRoom.id}</div>
         </div>
     );
 }
