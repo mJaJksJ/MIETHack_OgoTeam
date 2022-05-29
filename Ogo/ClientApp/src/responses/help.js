@@ -1,6 +1,6 @@
 const {default: axios} = require("axios");
 
-export async function fetchGetStudentsShort(){
+export async function fetchStudentsShort() {
     const axios = require('axios').default;
     let response = [];
     try {
@@ -11,7 +11,7 @@ export async function fetchGetStudentsShort(){
     return response.data;
 }
 
-export async function fetchRooms(housing, floor){
+export async function fetchRooms(housing, floor) {
     const axios = require('axios').default;
     let response = [];
     try {
@@ -21,3 +21,20 @@ export async function fetchRooms(housing, floor){
     }
     return response.data;
 }
+
+export async function postStudent(formData) {
+    let response = {status: "400"};
+    try {
+        response = (await axios.post('https://localhost:7076/api/AddStudent/', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        }));
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+    console.log(response);
+    return response;
+}
+

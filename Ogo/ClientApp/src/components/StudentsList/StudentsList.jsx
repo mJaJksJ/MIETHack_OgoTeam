@@ -23,7 +23,7 @@ import {visuallyHidden} from '@mui/utils';
 import {styled} from '@mui/material/styles';
 import {Button, Fab} from "@mui/material";
 import AddStudentModal from "./AddStudentModal";
-import {fetchGetStudentsShort} from "../../responses/help";
+import {fetchStudentsShort} from "../../responses/help";
 import {useEffect} from "react";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -295,7 +295,7 @@ export default function StudentsList() {
 
 
     async function loadStudent() {
-        const data = await fetchGetStudentsShort();
+        const data = await fetchStudentsShort();
         console.log(data);
         setRows(data);
     }
@@ -307,9 +307,6 @@ export default function StudentsList() {
     return (
         <div>
             <Button onClick={loadStudent}>Обновить</Button>
-            <Button variant="contained" onClick={addStudent}>
-                Добавить студента
-            </Button>
             <AddStudentModal open={open} close={handleClose}/>
             <Box sx={{width: '100%'}}>
                 <Paper sx={{width: '100%', mb: 2}}>

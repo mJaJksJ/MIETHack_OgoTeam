@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styleClasses from './Housing.module.css';
 import Room from "./Room/Room";
-import {fetchGetStudentsShort, fetchRooms} from "../../../responses/help";
+import {fetchStudentsShort, fetchRooms} from "../../../responses/help";
 import {Button} from "@mui/material";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
