@@ -39,6 +39,7 @@ var app = builder.Build();
 
 var devService = app.Services.GetRequiredService<DbDeveloperService>();
 devService.TryAddRooms();
+devService.TryAddStudents();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

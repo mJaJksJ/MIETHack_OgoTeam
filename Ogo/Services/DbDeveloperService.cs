@@ -15,5 +15,10 @@ namespace Ogo.Services
         {
             RoomsHelper.TryAddRooms(_databaseContext);
         }
+
+        public void TryAddStudents()
+        {
+            StudentsHelper.TryAddStudents(_databaseContext);
+        }
     }
 }
