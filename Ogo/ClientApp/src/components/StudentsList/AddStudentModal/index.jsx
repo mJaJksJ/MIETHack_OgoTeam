@@ -66,15 +66,18 @@ const AddStudentModal = ({open, close}) => {
 
     async function loadStudent() {
         let form = new FormData();
-        form.append("Number", studentNumber);
-        form.append("FullName", fullName);
-        form.append("GroupName", group);
-        form.append("Birthday", birthday);
-        form.append("Image", image);
-        form.append("NumbeOfOrderOfHostel", numberOrderHostel);
-        form.append("NumberOfOrderOfEnrollment", numberOrderEnrollment);
-        form.append("DateOfEnrollment", dateOrderEnrollment);
-        form.append("PlaceOfBirth", birthPlace);
+        form.append("number", studentNumber);
+        form.append("fullName", fullName);
+        form.append("groupName", group);
+        form.append("birthday", birthday);
+        let img = document.getElementById("image").files[0];
+        form.append("image", img);
+        form.append("numbeOfOrderOfHostel", numberOrderHostel);
+        form.append("numberOfOrderOfEnrollment", numberOrderEnrollment);
+        form.append("dateOfEnrollment", dateOrderEnrollment);
+        form.append("placeOfBirth", birthPlace);
+        form.append("numberOfHousing", housing);
+        form.append("NumberOfRoom", room);
 
         let response;
         try {

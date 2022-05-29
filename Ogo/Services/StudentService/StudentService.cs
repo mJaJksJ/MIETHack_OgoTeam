@@ -74,7 +74,9 @@ namespace Ogo.Services.StudentService
             return students;
         }
 
-
+        //сделать 2 метода. Студент добавляется без комнаты 
+        //второй метод - обновление существуюшего
+        //это метод обновления
         public bool AddStudentToDB(StudentFullRequest student)
         {
             string fileName = Guid.NewGuid().ToString();
@@ -88,11 +90,15 @@ namespace Ogo.Services.StudentService
 
             else
             {
+                //try catch
                 Room room = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
                 r.Housing.Number == student.NumberOfHousing).FirstOrDefault();
-                room.Housing = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
-                r.Housing.Number == student.NumberOfHousing).Select(h => h.Housing).FirstOrDefault();
-                if (room.Housing == null || room == null)
+                if (room is not null)
+                {
+                    room.Housing = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
+                    r.Housing.Number == student.NumberOfHousing).Select(h => h.Housing).FirstOrDefault();
+                }
+                if (room == null || room.Housing == null)
                 {
                     return false;
                 }
