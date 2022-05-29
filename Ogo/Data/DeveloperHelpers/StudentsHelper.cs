@@ -24,14 +24,14 @@ namespace Ogo.Data.DeveloperHelpers
                     {
                         BirthDay = DateTime.Today,
                         DateOfEnrollment = DateTime.Today,
-                        FullName = guid,
-                        GroupName = guid,
+                        FullName = "Jhon"+ guid.Substring(0,5),
+                        GroupName = "PIN-" + guid.Substring(0, 3),
                         Image = guid,
                         isNeededRoom = true,
                         Number = random.Next(100,10000),
                         NumberOfOrderOfEnrollment = random.Next(100, 10000),
                         NumberOfOrderOfHostel = random.Next(100, 10000),
-                        PlaceOfBirth = guid,
+                        PlaceOfBirth = "Krasnodar" + guid.Substring(0, 5),
                         Room= r
                     });
                 }
