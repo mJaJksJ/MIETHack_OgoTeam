@@ -1,9 +1,12 @@
 .backgroundScheme {
-    background-image: url(dormitory.jpg);
+    background-image: url(dormitory.png);
     background-size: cover;
-    width: 80%;
-    padding-top: 66%;
+    background-position: center;
+    width: 100%;
+    padding-top: 50%;
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .bottomHousing {
@@ -17,4 +20,74 @@
     top: 3%;
     left: 45%;
     width: 10%;
+}
+
+.Housing{
+    position: absolute;
+    width:8%;
+    height:8%;
+}
+
+.Housing7{
+    left: 0;
+}
+
+.Housing9{
+    left: 23%;
+}
+
+.Housing11{
+    right: 46%;
+}
+
+.Housing13{
+    right: 23%;
+}
+
+.Housing15{
+    right: 0;
+}
+
+.Floor1{
+    bottom: 1%;
+}
+
+.Floor2{
+    bottom: 10%;
+}
+
+.Floor3{
+    bottom: 19%;
+}
+
+.Floor4{
+    bottom: 28%;
+}
+
+.Floor5{
+    bottom: 37%;
+}
+
+.Floor6{
+    bottom: 46%;
+}
+
+.Floor7{
+    bottom: 55%;
+}
+
+.Floor8{
+    bottom: 64%;
+}
+
+.Floor9{
+    bottom: 73%;
+}
+
+.Floor10{
+    bottom: 82%;
+}
+
+.Floor11{
+    bottom: 91%;
 }

@@ -17,7 +17,7 @@ function Room(props) {
 
     return (
         <>
-            <button className={styleClasses.room}>{room.number}<br/>{room.realStudentsCount}/{room.countOfPossibleStudents}</button>
+            <button className={styleClasses.room} style={props.style}>{props.num}<br/>{room.realStudentsCount}/{room.countOfPossibleStudents}</button>
             </>
     );
 }
