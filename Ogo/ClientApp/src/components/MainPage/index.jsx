@@ -1,14 +1,60 @@
 import React, {useEffect} from 'react';
 import style from './style.module.css'
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+
+function createData(address, countRooms, countPlaces, emptyRooms, emptyPlaces) {
+    return {address, countRooms, countPlaces, emptyRooms, emptyPlaces};
+}
+
+const rows = [
+    createData('Зеленоград, ул. Юности , д.7', 157, 436, 12, 34),
+    createData('Зеленоград, ул. Юности , д.9', 174, 482, 11, 44),
+    createData('Зеленоград, ул. Юности , д.11', 134, 216, 12, 23),
+    createData('Зеленоград, ул. Юности , д.13', 176, 464, 28, 23),
+    createData('Зеленоград, ул. Юности , д.15', 177, 476, 23, 23),
+];
+
 
 const MainPage = () => {
 
-    useEffect(() => console.log("hi"), [])
 
     return (
-        <div className={style.root}>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi aut distinctio, et eveniet exercitationem ipsum modi odit suscipit vero. Aliquid amet atque blanditiis cumque dignissimos distinctio ducimus ea et eveniet ex explicabo facilis fuga libero magnam nisi nostrum numquam, omnis optio quibusdam repellat rerum saepe sapiente sit suscipit tempora totam voluptatum. Architecto at blanditiis earum, eveniet exercitationem expedita in ipsa libero molestiae numquam, provident quisquam recusandae reprehenderit sed similique tempore totam unde. Animi aspernatur blanditiis dolore, doloremque esse eum, eveniet in ipsum iste magnam molestiae quae quidem quo reprehenderit ut vel veritatis voluptatum! Accusamus aliquam asperiores aspernatur beatae ea earum esse eveniet, maiores minima necessitatibus nemo neque qui recusandae repudiandae sed sequi tenetur veritatis. A animi aperiam cum, cupiditate dolorum, error esse et eum exercitationem hic impedit in libero minima molestiae officia perspiciatis repudiandae sequi tenetur unde voluptatibus. Assumenda commodi debitis dolor error molestias non pariatur, rerum voluptatum. A aliquam asperiores atque culpa debitis delectus dicta dignissimos dolorum error inventore itaque iusto magni, nemo officia optio possimus praesentium recusandae sapiente tempore veniam. Aliquid asperiores dolor, doloremque eos excepturi facilis ipsum numquam quaerat quibusdam quo reiciendis sit suscipit velit. Amet, cumque vitae! Consequatur id illo modi odit pariatur repellat sint?</p>
+        <div>
+            <div className={style.image}>
+            </div>
+            <div className={style.root}>
+                <div style={{display: "flex", justifyContent: "center", flexDirection: "row"}}>
+                    <TableContainer style={{marginTop: "20px", width: "max-content"}} component={Paper}>
+                        <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Адреса общежитий университета</TableCell>
+                                    <TableCell>Количество жилых комнат</TableCell>
+                                    <TableCell>Количество занятых мест</TableCell>
+                                    <TableCell>Количество пустых комнат</TableCell>
+                                    <TableCell>Количество свободных мест</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row, index) => (
+                                    <TableRow
+                                        key={index}
+                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                    >
+                                        <TableCell align="left">{row.address}</TableCell>
+                                        <TableCell align="left">{row.countRooms}</TableCell>
+                                        <TableCell align="left">{row.countPlaces}</TableCell>
+                                        <TableCell align="left">{row.emptyRooms}</TableCell>
+                                        <TableCell align="left">{row.emptyPlaces}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+            </div>
         </div>
+
 
     );
 };

@@ -1,12 +1,17 @@
-.root{
+.image{
     top: 0;
     left: 0;
     z-index: -1;
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     padding-top: 100%;
     background-size: cover;
-    position: absolute;
+    position: fixed;
     background-image: url("4LGhbIa0f_2.jpg");
     background-position: center;
+}
+.root{
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
 }
