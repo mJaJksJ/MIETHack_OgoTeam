@@ -90,11 +90,12 @@ namespace Ogo.Services.RoomServices
         /// <inheritdoc/>
         public IEnumerable<ShortRoomInfoResponse> GetRooms(int housing, int floor)
         {
-            return _dbContext.Rooms
-                .AsNoTracking()
+            var rooms = _dbContext.Rooms
                 .Include(_ => _.Students)
                 .Include(_ => _.Housing)
-                .Where(_ => _.Housing.Number == housing && _.Floor == floor)
+                .Where(_ => _.Housing.Number == housing && _.Floor == floor).ToArray();
+
+            return rooms
                 .Select(r => new ShortRoomInfoResponse
                 {
                     Id = r.Id,
