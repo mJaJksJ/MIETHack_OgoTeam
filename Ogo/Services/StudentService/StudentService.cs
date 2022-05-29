@@ -74,6 +74,8 @@ namespace Ogo.Services.StudentService
             return students;
         }
 
+
+
         //сделать 2 метода. Студент добавляется без комнаты 
         //второй метод - обновление существуюшего
         //это метод обновления
@@ -90,44 +92,31 @@ namespace Ogo.Services.StudentService
 
             else
             {
-                //try catch
-                Room room = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
-                r.Housing.Number == student.NumberOfHousing).FirstOrDefault();
-                if (room is not null)
+
+                try
                 {
-                    room.Housing = _db.Rooms.Where(r => r.Number == student.NumberOfRoom &&
-                    r.Housing.Number == student.NumberOfHousing).Select(h => h.Housing).FirstOrDefault();
+                    Student newStudent = new Student
+                    {
+                        BirthDay = DateTime.Parse(student.BirthDay),
+                        DateOfEnrollment = DateTime.Parse(student.DateOfEnrollment),
+                        NumberOfOrderOfEnrollment = student.NumberOfOrderOfEnrollment,
+                        FullName = student.FullName,
+                        GroupName = student.GroupName,
+                        Image = fileName,
+                        Number = student.Number,
+                        NumberOfOrderOfHostel = student.NumberOfOrderOfHostel,
+                        PlaceOfBirth = student.PlaceOfBirth,
+                        Room = null
+
+                    };
+                    _db.Students.Add(newStudent);
+                    _db.SaveChanges();
                 }
-                if (room == null || room.Housing == null)
+                catch
                 {
                     return false;
                 }
-                else
-                {
-                    try
-                    {
-                        Student newStudent = new Student
-                        {
-                            BirthDay = DateTime.Parse(student.BirthDay),
-                            DateOfEnrollment = DateTime.Parse(student.DateOfEnrollment),
-                            NumberOfOrderOfEnrollment = student.NumberOfOrderOfEnrollment,
-                            FullName = student.FullName,
-                            GroupName = student.GroupName,
-                            Image = fileName,
-                            Number = student.Number,
-                            NumberOfOrderOfHostel = student.NumberOfOrderOfHostel,
-                            PlaceOfBirth = student.PlaceOfBirth,
-                            Room = room
 
-                        };
-                        _db.Students.Add(newStudent);
-                        _db.SaveChanges();
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
 
                 MemoryStream ms = new MemoryStream();
                 student.Image.CopyTo(ms);
@@ -148,7 +137,7 @@ namespace Ogo.Services.StudentService
                     return false;
                 }
 
-            
+
                 Room room = _db.Rooms.Include(r => r.Housing).Include(r => r.Students).
                     Where(r => r.Number == roomNumber &&
                 r.Housing.Number == housingNumber).FirstOrDefault();
@@ -161,7 +150,7 @@ namespace Ogo.Services.StudentService
                 if (room.Students.Count >= room.CountOfPossibleStudents)
                 {
                     return false;
-                    
+
                 }
 
                 student.Room = room;
@@ -177,7 +166,7 @@ namespace Ogo.Services.StudentService
 
         public bool RemoveRoom(int? studentNumber)
         {
-            if(studentNumber != null && studentNumber != 0)
+            if (studentNumber != null && studentNumber != 0)
             {
                 Student student = _db.Students.Where(s => s.Number == studentNumber).
                     Include(s => s.Room).FirstOrDefault();
