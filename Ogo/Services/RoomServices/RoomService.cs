@@ -3,6 +3,7 @@ using Ogo.Controllers.RoomController;
 using Ogo.Controllers.StudentController;
 using Ogo.Data;
 using Ogo.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace Ogo.Services.RoomServices
         {
             _dbContext = dbContext;
         }
-        public RoomResponse GetRoomInfo(int? id)
+        /*public RoomResponse GetRoomInfo(int? id)
         {
 
             if (id != null && id != 0)
@@ -36,7 +37,7 @@ namespace Ogo.Services.RoomServices
             {
                 return null;
             }
-        }
+        }*/
 
         public List<RoomResponse> GetFreeRooms()
         {
@@ -63,6 +64,26 @@ namespace Ogo.Services.RoomServices
                 
             }
             return roomResponses;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<StudentShortResponse> GetAdditionalRoomInfo(int roomId)
+        {
+            var room = _dbContext.Rooms
+                .Include(_ => _.Students)
+                .FirstOrDefault(_ => _.Id == roomId);
+
+            return room != null
+                ? room.Students.Select(_ => new StudentShortResponse
+                {
+                    FullName = _.FullName,
+                    GroupName = _.GroupName,
+                    Id = _.Id,
+                    Number = _.Number,
+                    NumberOfHousing = _.Room.HousingNumber,
+                    NumberOfRoom = _.Room.Number
+                })
+                : throw new NullReferenceException($"Не найдена комната с id: {roomId}");
         }
 
         /// <inheritdoc/>
