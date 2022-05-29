@@ -1,0 +1,15 @@
+.root {
+    min-width: 275px;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.fullName {
+    width: 70%;
+}
+.number {
+    width: 30%;
+}
+.date {
+    width: 30%;
+}

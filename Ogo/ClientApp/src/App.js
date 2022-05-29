@@ -10,6 +10,7 @@ import MainPage from "./components/MainPage";
 import ContactsPage from "./components/InfoPage";
 import StudentsList from "./components/StudentsList/StudentsList";
 import DormitoryScheme from "./components/DormitoryScheme/DormitoryScheme";
+import StudentPage from "./components/StudentPage";
 
 export default class App extends Component {
     static displayName = App.name;
@@ -19,6 +20,7 @@ export default class App extends Component {
             <Layout>
                 <Route exact path='/main' component={MainPage}/>
                 <Route exact path='/students' component={StudentsList}/>
+                <Route exact path='/students/:id' component={StudentPage}/>
                 <Route exact path='/rooms' component={Home}/>
                 <Route exact path='/contacts' component={ContactsPage}/>
                 <Route exact path='/scheme' component={DormitoryScheme}/>
