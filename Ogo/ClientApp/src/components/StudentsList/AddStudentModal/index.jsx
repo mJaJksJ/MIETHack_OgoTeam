@@ -4,13 +4,13 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl, Input, InputAdornment, InputLabel,
+    DialogTitle, FormControl, FormControlLabel, Input, InputAdornment, InputLabel,
     MenuItem,
     TextField,
     Typography
 } from "@mui/material";
-import {fetchGetStudentsShort} from "../../../responses/help";
 import {default as axios} from "axios";
+import Checkbox from "@mui/material/Checkbox";
 
 const housings = [
     {
@@ -42,9 +42,8 @@ const AddStudentModal = ({open, close}) => {
     const [numberOrderHostel, setNumberOrderHostel] = useState('');
     const [studentNumber, setStudentNumber] = useState('');
     const [group, setGroup] = useState('');
-    const [housing, setHousing] = useState('7');
-    const [room, setRoom] = useState('');
     const [image, setImage] = useState('');
+    const [isNeededRoom, setIsNeededRoom] = useState('');
     const [dateOrderEnrollment, setDateOrderEnrollment] = useState('');
     const [numberOrderEnrollment, setNumberOrderEnrollment] = useState('');
 
@@ -60,9 +59,6 @@ const AddStudentModal = ({open, close}) => {
     const changeImage = (event) => {
         setImage(event.target.value);
     };
-    const changeHousing = (event) => {
-        setHousing(event.target.value);
-    };
 
     async function loadStudent() {
         let form = new FormData();
@@ -72,7 +68,7 @@ const AddStudentModal = ({open, close}) => {
         form.append("birthday", birthday);
         let img = document.getElementById("image").files[0];
         form.append("image", img);
-        form.append("numbeOfOrderOfHostel", numberOrderHostel);
+        form.append("isNeededRoom", isNeededRoom);
         form.append("numberOfOrderOfEnrollment", numberOrderEnrollment);
         form.append("dateOfEnrollment", dateOrderEnrollment);
         form.append("placeOfBirth", birthPlace);
@@ -85,7 +81,7 @@ const AddStudentModal = ({open, close}) => {
                     "Content-Type": "multipart/form-data",
                 }
             }));
-            console.log(response.data);
+            console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -99,137 +95,105 @@ const AddStudentModal = ({open, close}) => {
             <Dialog open={open}>
                 <DialogTitle>Добавить студента</DialogTitle>
                 <DialogContent>
-                    <form id="form">
-                        <label style={{display: "flex", justifyContent: "space-between"}}>
-                            <Typography variant="standard">
-                                Фото студента
-                            </Typography>
-                            <input
-                                id="image"
-                                name="Image"
-                                value={image}
-                                onChange={changeImage}
-                                type="file"
-                                accept=".jpg, .jpeg, .png"
-                            />
-                        </label>
-                        <TextField
-                            value={fullName}
-                            onChange={changeFullName}
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="ФИО"
-                            type="name"
-                            fullWidth
-                            variant="standard"
+                    <label style={{display: "flex", justifyContent: "space-between"}}>
+                        <Typography variant="standard">
+                            Фото студента
+                        </Typography>
+                        <input
+                            id="image"
+                            name="Image"
+                            value={image}
+                            onChange={changeImage}
+                            type="file"
+                            accept=".jpg, .jpeg, .png"
                         />
-                        <TextField
-                            value={birthday}
-                            onChange={changeBirthday}
-                            InputLabelProps={{shrink: true}}
-                            margin="dense"
-                            id="name"
-                            label="Дата рождения"
-                            type="date"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={birthPlace}
-                            onChange={changeBirthPlace}
-                            autoFocus
-                            margin="dense"
-                            id="birthPlace"
-                            label="Место рождения"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={numberOrderHostel}
-                            onChange={evt => setNumberOrderHostel(evt.target.value)}
-                            id="numberOrderHostel"
-                            margin="dense"
-                            label="Номер приказа о заселении"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            id="housing"
-                            margin="dense"
-                            select
-                            label="Корпус"
-                            value={housing}
-                            onChange={changeHousing}
-                            helperText=""
-                            variant="standard"
-                            fullWidth
-                        >
-                            {housings.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            value={room}
-                            onChange={(event) =>
-                                setRoom(event.target.value)}
-                            autoFocus
-                            margin="dense"
-                            id="room"
-                            label="Комната"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={dateOrderEnrollment}
-                            onChange={evt => setDateOrderEnrollment(evt.target.value)}
-                            id="dateOrderEnrollment"
-                            InputLabelProps={{shrink: true}}
-                            margin="dense"
-                            label="Дата зачисления"
-                            type="date"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={numberOrderEnrollment}
-                            onChange={evt => setNumberOrderEnrollment(evt.target.value)}
-                            id="numberOrderEnrollment"
-                            margin="dense"
-                            label="Номер приказа о зачислении"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={studentNumber}
-                            onChange={evt => setStudentNumber(evt.target.value)}
-                            autoFocus
-                            margin="dense"
-                            id="number"
-                            label="Студенческий билет"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            value={group}
-                            onChange={(evt) =>
-                                setGroup(evt.target.value)}
-                            autoFocus
-                            margin="dense"
-                            id="group"
-                            label="Группа"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                        />
-                    </form>
+                    </label>
+                    <TextField
+                        value={fullName}
+                        onChange={changeFullName}
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="ФИО"
+                        type="name"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={birthday}
+                        onChange={changeBirthday}
+                        InputLabelProps={{shrink: true}}
+                        margin="dense"
+                        id="name"
+                        label="Дата рождения"
+                        type="date"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={birthPlace}
+                        onChange={changeBirthPlace}
+                        autoFocus
+                        margin="dense"
+                        id="birthPlace"
+                        label="Место рождения"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={dateOrderEnrollment}
+                        onChange={evt => setDateOrderEnrollment(evt.target.value)}
+                        id="dateOrderEnrollment"
+                        InputLabelProps={{shrink: true}}
+                        margin="dense"
+                        label="Дата зачисления"
+                        type="date"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={numberOrderEnrollment}
+                        onChange={evt => setNumberOrderEnrollment(evt.target.value)}
+                        id="numberOrderEnrollment"
+                        margin="dense"
+                        label="Номер приказа о зачислении"
+                        type="number"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={studentNumber}
+                        onChange={evt => setStudentNumber(evt.target.value)}
+                        autoFocus
+                        margin="dense"
+                        id="number"
+                        label="Студенческий билет"
+                        type="number"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        value={group}
+                        onChange={(evt) =>
+                            setGroup(evt.target.value)}
+                        autoFocus
+                        margin="dense"
+                        id="group"
+                        label="Группа"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <FormControlLabel
+                        componentsProps={{ typography: { variant: 'standart' } }}
+                        control={<Checkbox
+                            value={isNeededRoom}
+                            onChange={evt => setIsNeededRoom(evt.target.value)}
+                            defaultChecked
+                        />}
+                        label="Нуждается в общежитии"
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={close}>Отменить</Button>
