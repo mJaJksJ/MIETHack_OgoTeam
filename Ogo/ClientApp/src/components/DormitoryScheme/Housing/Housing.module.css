@@ -1,0 +1,10 @@
+.backgroundScheme {
+    background-image: url(housing.png);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding-top: 15%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}

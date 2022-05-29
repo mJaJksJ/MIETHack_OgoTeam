@@ -15,6 +15,8 @@ namespace Ogo.Data.Models
        
         public List<Student> Students { get; set; }
 
+        public int HousingNumber { get; set; }
+
         [Required]
         public Housing Housing { get; set; }
 
@@ -22,8 +24,8 @@ namespace Ogo.Data.Models
         [Range(1, WC.MaxCountOfStudentsInRoom, ErrorMessage = "Неверное количество возможных проживающих студентов")]
         public int CountOfPossibleStudents { get; set; }
 
-       
-       
-       
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Этаж должен быть больше 0")]
+        public int Floor { get; set; }
     }
 }

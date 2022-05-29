@@ -8,20 +8,20 @@ using System.Linq;
 
 namespace Ogo.Services.RoomServices
 {
-    public class RoomService:IRoomService
+    public class RoomService : IRoomService
     {
-        private readonly DatabaseContext _db;
-        public RoomService(DatabaseContext db)
+        private readonly DatabaseContext _dbContext;
+        public RoomService(DatabaseContext dbContext)
         {
-            _db = db;
+            _dbContext = dbContext;
         }
         public RoomResponse GetRoomInfo(int? id)
         {
 
             if (id != null && id != 0)
             {
-                List<string> students = _db.Students.Where(s => s.Room.Id == id).Select(s => s.FullName).ToList();
-                RoomResponse roomResponse = _db.Rooms.Where(r => r.Id == id).Select(r => new RoomResponse
+                List<string> students = _dbContext.Students.Where(s => s.Room.Id == id).Select(s => s.FullName).ToList();
+                RoomResponse roomResponse = _dbContext.Rooms.Where(r => r.Id == id).Select(r => new RoomResponse
                 {
                     Id = r.Id,
                     CountOfPossibleStudents = r.CountOfPossibleStudents,
@@ -40,7 +40,7 @@ namespace Ogo.Services.RoomServices
 
         public List<RoomResponse> GetFreeRooms()
         {
-            List<Room> rooms = _db.Rooms.Include(u => u.Students).Include(u => u.Housing).
+            List<Room> rooms = _dbContext.Rooms.Include(u => u.Students).Include(u => u.Housing).
                 Where(u => u.Students.Count < u.CountOfPossibleStudents).ToList();
 
             List<RoomResponse> roomResponses = new List<RoomResponse>();
@@ -63,6 +63,22 @@ namespace Ogo.Services.RoomServices
                 
             }
             return roomResponses;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<ShortRoomInfoResponse> GetRooms(int housing, int floor)
+        {
+            return _dbContext.Rooms
+                .Include(_ => _.Students)
+                .Where(_ => _.HousingNumber == housing && _.Floor == floor)
+                .Select(r => new ShortRoomInfoResponse
+                {
+                    CountOfPossibleStudents = r.CountOfPossibleStudents,
+                    Housing = housing,
+                    Number = r.Number,
+                    RealStudentsCount = r.Students.Count
+                })
+                .ToArray();
         }
     }
 }
