@@ -351,3 +351,6 @@ MigrationBackup/
 
 # WebStorm
 */ClientApp/.idea*
+
+# Db
+*.db*

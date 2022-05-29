@@ -1,6 +1,6 @@
 const {default: axios} = require("axios");
 
-export async function fetchGetStudentsShort(){
+export async function fetchStudentsShort() {
     const axios = require('axios').default;
     let response = [];
     try {
@@ -11,7 +11,7 @@ export async function fetchGetStudentsShort(){
     return response.data;
 }
 
-export async function fetchRooms(housing, floor){
+export async function fetchRooms(housing, floor) {
     const axios = require('axios').default;
     let response = [];
     try {
