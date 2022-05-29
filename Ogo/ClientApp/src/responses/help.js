@@ -11,6 +11,17 @@ export async function fetchStudentsShort() {
     return response.data;
 }
 
+export async function fetchStudentInfo(id) {
+    const axios = require('axios').default;
+    let response = null;
+    try {
+        response = (await axios.get('https://localhost:7076/api/GetStudentInfo/', { params: { id: id } }));
+    } catch (error) {
+        console.error(error);
+    }
+    return response.data;
+}
+
 export async function fetchRooms(housing, floor) {
     const axios = require('axios').default;
     let response = [];

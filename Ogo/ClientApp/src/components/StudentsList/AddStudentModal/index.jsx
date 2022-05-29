@@ -4,37 +4,14 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl, FormControlLabel, Input, InputAdornment, InputLabel,
-    MenuItem,
+    DialogTitle,
+    FormControlLabel,
     TextField,
     Typography
 } from "@mui/material";
-import {default as axios} from "axios";
 import Checkbox from "@mui/material/Checkbox";
 import {postStudent} from "../../../responses/help";
 
-const housings = [
-    {
-        value: '7',
-        label: '7',
-    },
-    {
-        value: '9',
-        label: '9',
-    },
-    {
-        value: '11',
-        label: '11',
-    },
-    {
-        value: '13',
-        label: '13',
-    },
-    {
-        value: '15',
-        label: '15',
-    },
-];
 
 const AddStudentModal = ({open, close}) => {
     const [fullName, setFullName] = useState('');

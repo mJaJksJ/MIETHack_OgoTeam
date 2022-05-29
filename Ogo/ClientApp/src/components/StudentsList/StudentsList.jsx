@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AddIcon from '@mui/icons-material/Add';
-import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,17 +13,13 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import {visuallyHidden} from '@mui/utils';
 import {styled} from '@mui/material/styles';
 import {Button, Fab} from "@mui/material";
 import AddStudentModal from "./AddStudentModal";
 import {fetchStudentsShort} from "../../responses/help";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import Loading from "../Loading";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,6 +42,7 @@ function descendingComparator(a, b, orderBy) {
         return 1;
     }
     return 0;
+
 }
 
 function getComparator(order, orderBy) {
@@ -73,35 +69,35 @@ const headCells = [
     {
         id: 'id',
         numeric: false,
-        disablePadding: true,
-        label: 'Номер Карточки',
+        disablePadding: false,
+        label: 'Номер карточки',
     },
     {
-        id: 'name',
+        id: 'fullName',
         numeric: false,
         disablePadding: false,
         label: 'Студент',
     },
     {
-        id: 'studentNumber',
+        id: 'number',
         numeric: false,
         disablePadding: false,
         label: 'Студ. билет',
     },
     {
-        id: 'group',
+        id: 'groupName',
         numeric: false,
         disablePadding: false,
         label: 'Группа',
     },
     {
-        id: 'house',
+        id: 'numberOfHousing',
         numeric: false,
         disablePadding: false,
         label: 'Корпус',
     },
     {
-        id: 'room',
+        id: 'numberOfRoom',
         numeric: false,
         disablePadding: false,
         label: 'Комната',
@@ -115,7 +111,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
+    const {order, orderBy, onRequestSort} =
         props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -124,17 +120,6 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                <StyledTableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts',
-                        }}
-                    />
-                </StyledTableCell>
                 {headCells.map((headCell) => (
                     <StyledTableCell
                         key={headCell.id}
@@ -171,52 +156,23 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-    const {numSelected} = props;
 
     return (
         <Toolbar
             sx={{
                 pl: {sm: 2},
-                pr: {xs: 1, sm: 1},
-                ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-                }),
+                pr: {xs: 1, sm: 1}
             }}
         >
-            {numSelected > 0 ? (
-                <Typography
-                    sx={{flex: '1 1 100%'}}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
-                    {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography
-                    sx={{flex: '1 1 100%'}}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Студенты
-                </Typography>
-            )}
+            <Typography
+                sx={{flex: '1 1 100%'}}
+                variant="h6"
+                id="tableTitle"
+                component="div"
+            >
+                Студенты
+            </Typography>
 
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <DeleteIcon/>
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon/>
-                    </IconButton>
-                </Tooltip>
-            )}
         </Toolbar>
     );
 };
@@ -227,45 +183,16 @@ EnhancedTableToolbar.propTypes = {
 
 export default function StudentsList() {
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
-    const [selected, setSelected] = React.useState([]);
+    const [orderBy, setOrderBy] = React.useState('id');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.id);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event, id) => {
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -276,8 +203,6 @@ export default function StudentsList() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
-    const isSelected = (id) => selected.indexOf(id) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -293,11 +218,15 @@ export default function StudentsList() {
         setOpen(false);
     };
 
-
     async function loadStudent() {
         const data = await fetchStudentsShort();
         console.log(data);
-        setRows(data);
+
+        if(data){
+            setIsLoading(false);
+            setRows(data)
+        }
+
     }
 
     useEffect(() => {
@@ -306,12 +235,12 @@ export default function StudentsList() {
 
     return (
         <div>
-            <Button onClick={loadStudent}>Обновить</Button>
+            <Button style={{marginBottom: "15px"}} onClick={loadStudent}>Обновить</Button>
             <AddStudentModal open={open} close={handleClose}/>
             <Box sx={{width: '100%'}}>
                 <Paper sx={{width: '100%', mb: 2}}>
-                    { rows ? <div>
-                            <EnhancedTableToolbar numSelected={selected.length}/>
+                    {isLoading ? <Loading/>
+                        : <div>
                             <TableContainer>
                                 <Table
                                     sx={{minWidth: 750}}
@@ -319,50 +248,32 @@ export default function StudentsList() {
                                     size={'small'}
                                 >
                                     <EnhancedTableHead
-                                        numSelected={selected.length}
                                         order={order}
                                         orderBy={orderBy}
-                                        onSelectAllClick={handleSelectAllClick}
                                         onRequestSort={handleRequestSort}
-                                        rowCount={rows.length}
                                     />
                                     <TableBody>
                                         {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
                                         {stableSort(rows, getComparator(order, orderBy))
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row, index) => {
-                                                const isItemSelected = isSelected(row.id);
-                                                const labelId = `enhanced-table-checkbox-${index}`;
-
+                                            .map((row) => {
                                                 return (
                                                     <TableRow
                                                         hover
-                                                        onClick={(event) => handleClick(event, row.id)}
-                                                        role="checkbox"
-                                                        aria-checked={isItemSelected}
                                                         tabIndex={-1}
                                                         key={row.id}
-                                                        selected={isItemSelected}
                                                     >
-                                                        <StyledTableCell padding="checkbox">
-                                                            <Checkbox
-                                                                color="primary"
-                                                                checked={isItemSelected}
-                                                                inputProps={{
-                                                                    'aria-labelledby': labelId,
-                                                                }}
-                                                            />
-                                                        </StyledTableCell>
                                                         <StyledTableCell align="left">{row.id}</StyledTableCell>
                                                         <StyledTableCell align="left">{row.fullName}</StyledTableCell>
                                                         <StyledTableCell align="left">{row.number}</StyledTableCell>
                                                         <StyledTableCell align="left">{row.groupName}</StyledTableCell>
                                                         <StyledTableCell
                                                             align="left">{row.numberOfHousing}</StyledTableCell>
-                                                        <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
+                                                        <StyledTableCell
+                                                            align="left">{row.numberOfRoom}</StyledTableCell>
                                                         <StyledTableCell align="left">
-                                                            <Button variant="outlined">Редактировать</Button>
+                                                            <Button variant="outlined">Подробнее</Button>
                                                         </StyledTableCell>
                                                     </TableRow>
                                                 );
@@ -389,12 +300,13 @@ export default function StudentsList() {
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
                         </div>
-                        : <div>Hello</div>
+
                     }
                 </Paper>
             </Box>
-            <Fab onClick={addStudent} style={{ position: "fixed", bottom: "5%", right: "5%"}} color="primary" aria-label="add">
-                <AddIcon />
+            <Fab onClick={addStudent} style={{position: "fixed", bottom: "5%", right: "2%"}} color="primary"
+                 aria-label="add">
+                <AddIcon/>
             </Fab>
         </div>
     );
