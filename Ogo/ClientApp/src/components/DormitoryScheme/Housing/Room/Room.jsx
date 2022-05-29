@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import styleClasses from './Room.module.css';
 
 function Room(props) {
-    const [room, setRoom] = useState({Number: 0, RealStudentsCount: 0, CountOfPossibleStudents: 0});
+    const [room, setRoom] = useState({id: 0, housing: 0, number: 0, realStudentsCount: 0, countOfPossibleStudents: 0});
 
     async function loadRooms() {
         props.rooms.then(rms => {
-                setRoom(rms.find(r => r.number % 100 === props.num) || {Number: 0, RealStudentsCount: 0, CountOfPossibleStudents: 0});
+                setRoom(rms.find(r => r.number % 100 === props.num) || {id: 0, housing: 0, number: 0, realStudentsCount: 0, countOfPossibleStudents: 0});
         });
     }
 
@@ -14,10 +14,9 @@ function Room(props) {
         loadRooms();
     }, [])
 
-
     return (
         <>
-            <button className={styleClasses.room} style={props.style}>{props.num}<br/>{room.realStudentsCount}/{room.countOfPossibleStudents}</button>
+            <button onClick={(rm) => props.onClick(rm)} className={styleClasses.room} style={props.style}>{props.num}<br/>{room.realStudentsCount}/{room.countOfPossibleStudents}</button>
             </>
     );
 }

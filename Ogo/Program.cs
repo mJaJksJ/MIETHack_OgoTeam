@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogo.Data;
+using Ogo.Data.DeveloperHelpers;
+using Ogo.Services;
 using Ogo.Services.HousingFolder;
 using Ogo.Services.RoomServices;
 using Ogo.Services.StudentService;
@@ -12,12 +14,16 @@ using Swashbuckle.Swagger;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddSingleton(new DatabaseContext());
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddTransient<IRoomService, RoomService>();
 builder.Services.AddTransient<IHousingService, HousingService>();
+builder.Services.AddSingleton<DbDeveloperService>();
 
 builder.Services.AddCors(options =>
 {
@@ -29,11 +35,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(connection));
-
 var app = builder.Build();
+
+var devService = app.Services.GetRequiredService<DbDeveloperService>();
+devService.TryAddRooms();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

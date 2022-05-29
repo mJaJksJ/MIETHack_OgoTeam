@@ -71,6 +71,7 @@ namespace Ogo.Services.RoomServices
         {
             var room = _dbContext.Rooms
                 .Include(_ => _.Students)
+                .Include(_ => _.Housing)
                 .FirstOrDefault(_ => _.Id == roomId);
 
             return room != null
@@ -80,7 +81,7 @@ namespace Ogo.Services.RoomServices
                     GroupName = _.GroupName,
                     Id = _.Id,
                     Number = _.Number,
-                    NumberOfHousing = _.Room.HousingNumber,
+                    NumberOfHousing = _.Room.Housing.Number,
                     NumberOfRoom = _.Room.Number
                 })
                 : throw new NullReferenceException($"Не найдена комната с id: {roomId}");
@@ -91,7 +92,8 @@ namespace Ogo.Services.RoomServices
         {
             return _dbContext.Rooms
                 .Include(_ => _.Students)
-                .Where(_ => _.HousingNumber == housing && _.Floor == floor)
+                .Include(_ => _.Housing)
+                .Where(_ => _.Housing.Number == housing && _.Floor == floor)
                 .Select(r => new ShortRoomInfoResponse
                 {
                     CountOfPossibleStudents = r.CountOfPossibleStudents,

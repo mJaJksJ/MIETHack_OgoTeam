@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Ogo.Data.DeveloperHelpers;
 using Ogo.Data.Models;
 
 namespace Ogo.Data
@@ -11,12 +12,13 @@ namespace Ogo.Data
 
         public DbSet<Room> Rooms { get; set; }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {         
-                    }
+        public DatabaseContext()
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source=Data/hosteldata.db");
+            
         }
     }
 }
