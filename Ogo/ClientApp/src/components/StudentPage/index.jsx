@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import {fetchStudentInfo, fetchStudentsShort} from "../../responses/help";
-import {Button, Card, CardActions, CardContent, Container, TextField, Typography} from "@mui/material";
+import {useParams, Link} from "react-router-dom";
+import {fetchStudentInfo} from "../../responses/help";
+import {Button, Card, CardActions, CardContent, TextField} from "@mui/material";
 import Loading from "../Loading";
 import classes from './style.module.css'
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 
 
 const StudentPage = () => {
     const {id} = useParams();
     const [student, setStudent] = useState({});
     const [isLoading, setIsLoading] = useState(true)
-    const bull = <span className={classes.bullet}>•</span>;
-
+    const [editMode, setEditMode] = useState(true)
     async function loadStudent() {
         const data = await fetchStudentInfo(id);
         console.log(data);
@@ -21,15 +21,16 @@ const StudentPage = () => {
             setIsLoading(false);
         }
     }
-
     useEffect(() =>
             loadStudent(id),
         []);
 
-    console.log("Student", id);
 
-    return (isLoading ? Loading :
+    return (isLoading ? <Loading/> :
             <Card className={classes.root}>
+                <Button variant="outlined" startIcon={<ArrowBackOutlinedIcon/>} component={Link} to="/students">
+                    Вернуться к студентам
+                </Button>
                 <CardContent>
                     <TextField
                         font
@@ -143,10 +144,12 @@ const StudentPage = () => {
                     />
                     <br/>
                 </CardContent>
-                <CardActions style={{display: "flex", justifyContent:"space-between"}}>
+                <CardActions style={{display: "flex", justifyContent: "space-between"}}>
                     <div>
-                        <Button>Редактировать</Button>
-                        <Button>Редактировать</Button>
+                        {editMode ? <Button onClick={() => setEditMode(true)}>Редактировать</Button>:}
+
+                        <Button onClick={}>Отменить</Button>
+                        <Button onClick={}>Сохранить</Button>
                     </div>
                     <Button variant={"contained"} color={"error"}>Удалить</Button>
                 </CardActions>

@@ -7,6 +7,8 @@ function DormitoryScheme() {
     const [housingNum, setHousingNum] = useState(0);
     const [floor, setFloor] = useState(0);
 
+
+
     return (
         <>
             <div style={{textAlign: 'center'}}>

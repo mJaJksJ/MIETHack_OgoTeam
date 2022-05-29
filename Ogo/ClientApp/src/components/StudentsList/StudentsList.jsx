@@ -20,6 +20,8 @@ import AddStudentModal from "./AddStudentModal";
 import {fetchStudentsShort} from "../../responses/help";
 import {useEffect, useState} from "react";
 import Loading from "../Loading";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import {Link} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -205,8 +207,7 @@ export default function StudentsList() {
     };
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = () =>  page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const [open, setOpen] = React.useState(false);
 
@@ -231,7 +232,7 @@ export default function StudentsList() {
 
     useEffect(() => {
         loadStudent();
-    }, [])
+    }, rows)
 
     return (
         <div>
@@ -273,7 +274,7 @@ export default function StudentsList() {
                                                         <StyledTableCell
                                                             align="left">{row.numberOfRoom}</StyledTableCell>
                                                         <StyledTableCell align="left">
-                                                            <Button variant="outlined">Подробнее</Button>
+                                                            <Button variant="outlined" component={Link} to={`/students/${row.id}`} >Подробнее</Button>
                                                         </StyledTableCell>
                                                     </TableRow>
                                                 );
