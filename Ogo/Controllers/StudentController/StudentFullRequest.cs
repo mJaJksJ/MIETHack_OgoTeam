@@ -27,5 +27,7 @@ namespace Ogo.Controllers.StudentController
         public int? NumberOfHousing { get; set; }
         public int? NumberOfRoom { get; set; }
 
+        public bool isNeededRoom { get; set; }
+
     }
 }

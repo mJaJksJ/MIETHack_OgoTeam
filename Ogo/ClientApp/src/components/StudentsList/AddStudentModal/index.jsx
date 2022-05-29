@@ -76,8 +76,7 @@ const AddStudentModal = ({open, close}) => {
         form.append("numberOfOrderOfEnrollment", numberOrderEnrollment);
         form.append("dateOfEnrollment", dateOrderEnrollment);
         form.append("placeOfBirth", birthPlace);
-        form.append("numberOfHousing", housing);
-        form.append("NumberOfRoom", room);
+
 
         let response;
         try {
