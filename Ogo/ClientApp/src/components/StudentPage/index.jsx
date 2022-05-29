@@ -28,7 +28,6 @@ const StudentPage = () => {
 
     console.log("Student", id);
 
-
     return (isLoading ? Loading :
             <Card className={classes.root}>
                 <CardContent>
