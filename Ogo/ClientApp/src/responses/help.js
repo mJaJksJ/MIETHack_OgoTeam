@@ -21,3 +21,31 @@ export async function fetchRooms(housing, floor){
     }
     return response.data;
 }
+
+export async function fetchAddingRoomInfo(roomId) {
+    const axios = require('axios').default;
+    let response = [];
+    try {
+        response = (await axios.get(`https://localhost:7076/api/rooms/${roomId}`));
+    } catch (error) {
+        console.error(error);
+    }
+    return response.data;
+}
+
+export async function postStudent(formData) {
+    let response = {status: "400"};
+    try {
+        response = (await axios.post('https://localhost:7076/api/AddStudent/', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        }));
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+    console.log(response);
+    return response;
+}
+

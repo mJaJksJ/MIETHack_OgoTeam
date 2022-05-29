@@ -91,11 +91,13 @@ namespace Ogo.Services.RoomServices
         public IEnumerable<ShortRoomInfoResponse> GetRooms(int housing, int floor)
         {
             return _dbContext.Rooms
+                .AsNoTracking()
                 .Include(_ => _.Students)
                 .Include(_ => _.Housing)
                 .Where(_ => _.Housing.Number == housing && _.Floor == floor)
                 .Select(r => new ShortRoomInfoResponse
                 {
+                    Id = r.Id,
                     CountOfPossibleStudents = r.CountOfPossibleStudents,
                     Housing = housing,
                     Number = r.Number,
