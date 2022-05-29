@@ -12,6 +12,7 @@ const StudentPage = () => {
     const [student, setStudent] = useState({});
     const [isLoading, setIsLoading] = useState(true)
     const [editMode, setEditMode] = useState(true)
+
     async function loadStudent() {
         const data = await fetchStudentInfo(id);
         console.log(data);
@@ -21,6 +22,7 @@ const StudentPage = () => {
             setIsLoading(false);
         }
     }
+
     useEffect(() =>
             loadStudent(id),
         []);
@@ -146,10 +148,6 @@ const StudentPage = () => {
                 </CardContent>
                 <CardActions style={{display: "flex", justifyContent: "space-between"}}>
                     <div>
-                        {editMode ? <Button onClick={() => setEditMode(true)}>Редактировать</Button>:}
-
-                        <Button onClick={}>Отменить</Button>
-                        <Button onClick={}>Сохранить</Button>
                     </div>
                     <Button variant={"contained"} color={"error"}>Удалить</Button>
                 </CardActions>
