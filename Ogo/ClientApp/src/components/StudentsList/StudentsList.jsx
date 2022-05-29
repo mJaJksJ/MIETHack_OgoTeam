@@ -232,7 +232,7 @@ export default function StudentsList() {
 
     useEffect(() => {
         loadStudent();
-    }, rows)
+    }, [])
 
     return (
         <div>
