@@ -82,14 +82,9 @@ function Housing(props) {
             </div>
 
             <br/>
-            {addingRoomInfo && selectedRoom ? <RoomInfo floor={FloorString(props.floor, selectedRoom.id)} room={selectedRoom} info={addingRoomInfo}/> : <div></div>}
+            {addingRoomInfo && selectedRoom ? <RoomInfo floor={selectedRoom.number} room={selectedRoom} info={addingRoomInfo}/> : <div></div>}
         </div>
     );
-}
-
-function FloorString(floorNum, room){
-    const rmNum = `${room}`.length === 1 ? `0${room}` : `room`;
-    return `${floorNum}${rmNum}`;
 }
 
 export default Housing;

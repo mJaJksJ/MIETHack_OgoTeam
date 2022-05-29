@@ -9,6 +9,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {Link} from "react-router-dom";
 
 function RoomInfo(props) {
     class ArrEmpties extends React.Component {
@@ -52,7 +53,7 @@ function RoomInfo(props) {
                             }
                             disablePadding
                         >
-                            <ListItemButton  dense>
+                            <ListItemButton onClick={()=>{console.log(props.info)}} component={Link} to={`/students/${info.id}`} dense>
                                 <ListItemText primary={`${info.fullName}`} />
                             </ListItemButton>
                         </ListItem>
