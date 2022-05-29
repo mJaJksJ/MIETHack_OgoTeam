@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
-import DormitoryScheme from "./DormitoryScheme/DormitoryScheme";
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -38,10 +37,10 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-light" to="/rooms">Комнаты</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/contacts">Контакты</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/scheme">Схема</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-light" to="/scheme">Схема</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/contacts">Общая информация</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

@@ -7,7 +7,7 @@ import {Layout} from './components/Layout';
 import './custom.css'
 import {Home} from "./components/Home";
 import MainPage from "./components/MainPage";
-import ContactsPage from "./components/ContactsPage";
+import ContactsPage from "./components/InfoPage";
 import StudentsList from "./components/StudentsList/StudentsList";
 import DormitoryScheme from "./components/DormitoryScheme/DormitoryScheme";
 
