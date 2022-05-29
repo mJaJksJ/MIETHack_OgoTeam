@@ -390,7 +390,7 @@ export default function StudentsList() {
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                            />}
+                            />
                         </div>
                         : <div>Hello</div>
                     }
