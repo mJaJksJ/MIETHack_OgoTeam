@@ -13,5 +13,7 @@ namespace Ogo.Services.RoomServices
         /// <param name="housing">Номер корпуса</param>
         /// <param name="floor">Этаж</param>
         public IEnumerable<ShortRoomInfoResponse> GetRooms(int housing, int floor);
+
+        public List<RoomResponse> GetFreeRooms();
     }
 }

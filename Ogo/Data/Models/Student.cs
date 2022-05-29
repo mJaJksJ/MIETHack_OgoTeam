@@ -12,6 +12,7 @@ namespace Ogo.Data.Models
         public int Id { get; set; }
 
         [Required]
+        
         public int Number { get; set; }
 
         [Required]
@@ -26,7 +27,7 @@ namespace Ogo.Data.Models
 
         public string Image { get; set; } 
 
-        [Required]
+        
         [Range(1, int.MaxValue, ErrorMessage = "Номер приказа не должен быть отрицательным")]
         public int NumberOfOrderOfHostel { get; set; }
 
@@ -43,5 +44,7 @@ namespace Ogo.Data.Models
         public Room Room { get; set; } 
 
         public bool isNeededRoom { get; set; }
+
+        
     }
 }

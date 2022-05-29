@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import AddIcon from '@mui/icons-material/Add';
 import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -20,9 +21,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import {visuallyHidden} from '@mui/utils';
 import {styled} from '@mui/material/styles';
-import {Button} from "@mui/material";
+import {Button, Fab} from "@mui/material";
 import AddStudentModal from "./AddStudentModal";
-import axios from "axios";
 import {fetchGetStudentsShort} from "../../responses/help";
 import {useEffect} from "react";
 
@@ -38,29 +38,6 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
         fontSize: 14,
     },
 }));
-
-/*function createData(cardId, name, studentNumber, group, room) {
-    return {
-        cardId,
-        name,
-        studentNumber,
-        group,
-        room,
-    };
-}
-
-const rows = [
-    createData(1, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(2, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(3, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(4, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(5, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(7, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(8, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(9, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(10, 'fio', '8975645', 'pp-88', '15-365'),
-    createData(11, 'fio', '8975645', 'pp-88', '15-365')
-];*/
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -94,7 +71,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
     {
-        id: 'cardId',
+        id: 'id',
         numeric: false,
         disablePadding: true,
         label: 'Номер Карточки',
@@ -264,19 +241,19 @@ export default function StudentsList() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.cardId);
+            const newSelecteds = rows.map((n) => n.id);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, cardId) => {
-        const selectedIndex = selected.indexOf(cardId);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, cardId);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -300,7 +277,7 @@ export default function StudentsList() {
         setPage(0);
     };
 
-    const isSelected = (cardId) => selected.indexOf(cardId) !== -1;
+    const isSelected = (id) => selected.indexOf(id) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -308,7 +285,7 @@ export default function StudentsList() {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
+    const addStudent = () => {
         setOpen(true);
     };
 
@@ -330,90 +307,98 @@ export default function StudentsList() {
     return (
         <div>
             <Button onClick={loadStudent}>Обновить</Button>
-            <Button variant="contained" onClick={handleClickOpen}>
+            <Button variant="contained" onClick={addStudent}>
                 Добавить студента
             </Button>
             <AddStudentModal open={open} close={handleClose}/>
             <Box sx={{width: '100%'}}>
                 <Paper sx={{width: '100%', mb: 2}}>
-                    <EnhancedTableToolbar numSelected={selected.length}/>
-                    <TableContainer>
-                        <Table
-                            sx={{minWidth: 750}}
-                            aria-labelledby="tableTitle"
-                            size={'small'}
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
-                                rowCount={rows.length}
-                            />
-                            <TableBody>
-                                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                    { rows ? <div>
+                            <EnhancedTableToolbar numSelected={selected.length}/>
+                            <TableContainer>
+                                <Table
+                                    sx={{minWidth: 750}}
+                                    aria-labelledby="tableTitle"
+                                    size={'small'}
+                                >
+                                    <EnhancedTableHead
+                                        numSelected={selected.length}
+                                        order={order}
+                                        orderBy={orderBy}
+                                        onSelectAllClick={handleSelectAllClick}
+                                        onRequestSort={handleRequestSort}
+                                        rowCount={rows.length}
+                                    />
+                                    <TableBody>
+                                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-                                {stableSort(rows, getComparator(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
-                                        const isItemSelected = isSelected(row.id);
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                                        {stableSort(rows, getComparator(order, orderBy))
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row, index) => {
+                                                const isItemSelected = isSelected(row.id);
+                                                const labelId = `enhanced-table-checkbox-${index}`;
 
-                                        return (
+                                                return (
+                                                    <TableRow
+                                                        hover
+                                                        onClick={(event) => handleClick(event, row.id)}
+                                                        role="checkbox"
+                                                        aria-checked={isItemSelected}
+                                                        tabIndex={-1}
+                                                        key={row.id}
+                                                        selected={isItemSelected}
+                                                    >
+                                                        <StyledTableCell padding="checkbox">
+                                                            <Checkbox
+                                                                color="primary"
+                                                                checked={isItemSelected}
+                                                                inputProps={{
+                                                                    'aria-labelledby': labelId,
+                                                                }}
+                                                            />
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="left">{row.id}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.fullName}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.number}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.groupName}</StyledTableCell>
+                                                        <StyledTableCell
+                                                            align="left">{row.numberOfHousing}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
+                                                        <StyledTableCell align="left">
+                                                            <Button variant="outlined">Редактировать</Button>
+                                                        </StyledTableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
+                                        {emptyRows > 0 && (
                                             <TableRow
-                                                hover
-                                                onClick={(event) => handleClick(event, row.id)}
-                                                role="checkbox"
-                                                aria-checked={isItemSelected}
-                                                tabIndex={-1}
-                                                key={row.id}
-                                                selected={isItemSelected}
+                                                style={{
+                                                    height: 33 * emptyRows,
+                                                }}
                                             >
-                                                <StyledTableCell padding="checkbox">
-                                                    <Checkbox
-                                                        color="primary"
-                                                        checked={isItemSelected}
-                                                        inputProps={{
-                                                            'aria-labelledby': labelId,
-                                                        }}
-                                                    />
-                                                </StyledTableCell>
-                                                <StyledTableCell align="left">{row.id}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.fullName}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.number}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.groupName}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.numberOfHousing}</StyledTableCell>
-                                                <StyledTableCell align="left">{row.numberOfRoom}</StyledTableCell>
-                                                <StyledTableCell align="left">
-                                                    <Button variant="outlined">Редактировать</Button>
-                                                </StyledTableCell>
+                                                <TableCell colSpan={6}/>
                                             </TableRow>
-                                        );
-                                    })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: 33 * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6}/>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
+                                component="div"
+                                count={rows.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />}
+                        </div>
+                        : <div>Hello</div>
+                    }
                 </Paper>
             </Box>
+            <Fab onClick={addStudent} style={{ position: "fixed", bottom: "5%", right: "5%"}} color="primary" aria-label="add">
+                <AddIcon />
+            </Fab>
         </div>
     );
 }

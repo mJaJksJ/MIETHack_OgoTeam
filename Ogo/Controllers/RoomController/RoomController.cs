@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ogo.Services.RoomServices;
+using System.Collections.Generic;
 
 
 namespace Ogo.Controllers.RoomController
@@ -15,9 +16,18 @@ namespace Ogo.Controllers.RoomController
 
         [HttpGet]
         [Route("/api/GetRoom")]
-        public RoomResponse GetRoom(int? id)
+        [ProducesResponseType(typeof(RoomResponse), 200)]
+        public IActionResult GetRoom(int? id)
         {
-            return _roomService.GetRoomInfo(id);
+            return Ok(_roomService.GetRoomInfo(id));
+        }
+
+        [HttpGet]
+        [Route("/api/GetFreeRooms")]
+        [ProducesResponseType(typeof(List<RoomResponse>), 200)]
+        public IActionResult GetFreeRooms()
+        {
+            return Ok(_roomService.GetFreeRooms());
         }
 
         /// <summary>
