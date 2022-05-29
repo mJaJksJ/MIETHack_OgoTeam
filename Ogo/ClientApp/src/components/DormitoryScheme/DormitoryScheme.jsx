@@ -9,6 +9,9 @@ function DormitoryScheme() {
 
     return (
         <>
+            <div style={{textAlign: 'center'}}>
+                <h1>{showDormitory ? 'Выберите корпус и этаж' : `Корпус ${housingNum} этаж ${floor}`}</h1>
+            </div>
             {showDormitory ? <Dormitory choiseHousing={(num, floorNum) => {
                 setShowDormitory(false);
                 setHousingNum(num);

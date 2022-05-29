@@ -3,7 +3,7 @@
     background-size: cover;
     background-position: center;
     width: 100%;
-    padding-top: 50%;
+    padding-top: 46%;
     position: relative;
     display: flex;
     justify-content: center;
@@ -25,15 +25,15 @@
 .Housing{
     position: absolute;
     width:8%;
-    height:8%;
+    height:7%;
 }
 
 .Housing7{
-    left: 0;
+    left: 0.5%;
 }
 
 .Housing9{
-    left: 23%;
+    left: 23.5%;
 }
 
 .Housing11{
@@ -41,11 +41,11 @@
 }
 
 .Housing13{
-    right: 23%;
+    right: 23.5%;
 }
 
 .Housing15{
-    right: 0;
+    right: 0.5%;
 }
 
 .Floor1{

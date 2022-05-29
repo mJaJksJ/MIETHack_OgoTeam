@@ -2,13 +2,17 @@ import React, {useEffect, useState} from 'react';
 import styleClasses from './Housing.module.css';
 import Room from "./Room/Room";
 import {fetchGetStudentsShort, fetchRooms} from "../../../responses/help";
+import {Button} from "@mui/material";
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 function Housing(props) {
     const roomsList = fetchRooms(props.housingNum, props.floor);
 
     return (
         <div>
-            <h1>{`Корпус ${props.housingNum} этаж ${props.floor}`}</h1>
+
+            <Button variant="outlined" startIcon={<ArrowBackOutlinedIcon />} onClick={props.backToDormitory}>К схеме общежития</Button>
+
             <div className={styleClasses.backgroundScheme}>
                 <Room rooms={roomsList} num={2} style={{top: '5.35%', left: '8.6%'}}/>
                 <Room rooms={roomsList} num={4} style={{top: '5.35%', left: '12.6%'}}/>
@@ -49,12 +53,8 @@ function Housing(props) {
                 <br/>
             </div>
 
-            <div >
-
-            </div>
-
             <br/>
-            <button onClick={props.backToDormitory}>назад</button>
+
         </div>
     );
 }
