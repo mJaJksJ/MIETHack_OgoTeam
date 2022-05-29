@@ -69,10 +69,19 @@ namespace Ogo.Services.RoomServices
         /// <inheritdoc/>
         public IEnumerable<StudentShortResponse> GetAdditionalRoomInfo(int roomId)
         {
-            var room = _dbContext.Rooms
-                .Include(_ => _.Students)
-                .Include(_ => _.Housing)
-                .FirstOrDefault(_ => _.Id == roomId);
+            Room room;
+            try
+            {
+                room = _dbContext.Rooms
+    .Include(_ => _.Students)
+    .Include(_ => _.Housing)
+    .FirstOrDefault(_ => _.Id == roomId);
+            }
+            catch
+            {
+                return Enumerable.Empty<StudentShortResponse>();
+            }
+
 
             return room != null
                 ? room.Students.Select(_ => new StudentShortResponse
@@ -90,10 +99,18 @@ namespace Ogo.Services.RoomServices
         /// <inheritdoc/>
         public IEnumerable<ShortRoomInfoResponse> GetRooms(int housing, int floor)
         {
-            var rooms = _dbContext.Rooms
-                .Include(_ => _.Students)
-                .Include(_ => _.Housing)
-                .Where(_ => _.Housing.Number == housing && _.Floor == floor).ToArray();
+            Room[] rooms;
+            try
+            {
+                rooms = _dbContext.Rooms
+    .Include(_ => _.Students)
+    .Include(_ => _.Housing)
+    .Where(_ => _.Housing.Number == housing && _.Floor == floor).ToArray();
+            }
+            catch
+            {
+                return Array.Empty<ShortRoomInfoResponse>();
+            }
 
             return rooms
                 .Select(r => new ShortRoomInfoResponse
