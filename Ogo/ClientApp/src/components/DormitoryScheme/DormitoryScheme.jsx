@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Dormitory from "./Dormitory/Dormitory";
 import Housing from "./Housing/Housing";
+import Housing11 from "./Housing/Housing11";
 
 function DormitoryScheme() {
     const [showDormitory, setShowDormitory] = useState(true);
@@ -18,7 +19,10 @@ function DormitoryScheme() {
                 setShowDormitory(false);
                 setHousingNum(num);
                 setFloor(floorNum);
-            }}/> : <Housing backToDormitory={() => setShowDormitory(true)} housingNum={housingNum} floor={floor}/>}
+            }}/> : housingNum === 11
+                ? <Housing11 backToDormitory={() => setShowDormitory(true)} housingNum={housingNum} floor={floor}/>
+                : <Housing backToDormitory={() => setShowDormitory(true)} housingNum={housingNum} floor={floor}/>
+            }
         </>
     );
 };

@@ -8,3 +8,14 @@
     display: flex;
     justify-content: center;
 }
+
+.backgroundScheme11 {
+    background-image: url(housing11.png);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding-top: 65%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
