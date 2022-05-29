@@ -34,7 +34,8 @@ namespace Ogo.Services.StudentService
                     NumberOfOrderOfEnrollment = s.NumberOfOrderOfEnrollment,
                     NumberOfOrderOfHostel = s.NumberOfOrderOfHostel,
                     NumberOfRoom = s.Room.Number,
-                    PlaceOfBirth = s.PlaceOfBirth
+                    PlaceOfBirth = s.PlaceOfBirth,
+                    NumberOfHousing = s.Room.Housing.Number
                 }).ToList()[0];
                 return student;
             }
@@ -104,9 +105,9 @@ namespace Ogo.Services.StudentService
                         GroupName = student.GroupName,
                         Image = fileName,
                         Number = student.Number,
-                        NumberOfOrderOfHostel = student.NumberOfOrderOfHostel,
                         PlaceOfBirth = student.PlaceOfBirth,
-                        Room = null
+                        Room = null,
+                        isNeededRoom = student.IsNeededRoom
 
                     };
                     _db.Students.Add(newStudent);

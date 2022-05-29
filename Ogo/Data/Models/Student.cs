@@ -27,7 +27,7 @@ namespace Ogo.Data.Models
 
         public string Image { get; set; } 
 
-        [Required]
+        
         [Range(1, int.MaxValue, ErrorMessage = "Номер приказа не должен быть отрицательным")]
         public int NumberOfOrderOfHostel { get; set; }
 

@@ -16,18 +16,13 @@ namespace Ogo.Controllers.StudentController
 
         public IFormFile Image { get; set; }       
         
-        public int NumberOfOrderOfHostel { get; set; }
-     
         public int NumberOfOrderOfEnrollment { get; set; }
   
         public string DateOfEnrollment { get; set; }
         
         public string PlaceOfBirth { get; set; }
 
-        public int? NumberOfHousing { get; set; }
-        public int? NumberOfRoom { get; set; }
-
-        public bool isNeededRoom { get; set; }
+        public bool IsNeededRoom { get; set; }
 
     }
 }
